@@ -1,9 +1,4 @@
-import * as http from 'http'
+import { UserServer } from "./server";
 
-const server = http.createServer((req, res) => {
-    console.log(req.url)
-})
-
-const port = 5000
-server.listen(port, () => {
-})
+const server = new UserServer(5000)
+server.run()
