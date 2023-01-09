@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start:dev": "npx nodemon",
+    "start:prod": "tsc && nodemon ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +18,9 @@
   },
   "homepage": "https://github.com/PavelKesso/CRUD-API#readme",
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

@@ -23,14 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const http = __importStar(require("http"));
-const server = http.createServer((req, res) => {
-    var _a;
-    if ((_a = req.url) === null || _a === void 0 ? void 0 : _a.match(/^\/users/)) {
-        return "lol kek";
-    }
-});
-const port = 5000;
-server.listen(port, () => {
-    console.log('lol kek');
-});
+const server_1 = require("./server");
+const dotenv = __importStar(require("dotenv"));
+const parser_1 = require("./env/parser");
+dotenv.config();
+const port = (0, parser_1.parsePort)(process.env.PORT, 5000);
+const server = new server_1.UserServer(port);
+server.run();
