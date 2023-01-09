@@ -1,4 +1,10 @@
-import { UserServer } from "./server";
+import { UserServer } from "./server"
+import * as dotenv from 'dotenv'
+import { parsePort } from "./env/parser";
 
-const server = new UserServer(5000)
+dotenv.config()
+
+const port = parsePort(process.env.PORT, 5000)
+
+const server = new UserServer(port)
 server.run()
