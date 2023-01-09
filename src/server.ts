@@ -40,13 +40,17 @@ export class UserServer {
                         break
                     }
                     default: {
-
+                        res.statusCode = 404
+                        res.end("Method: " + req.method + " are not supported on api/users endpont")
                     }
                 }
             } catch (e: any) {
                 res.statusCode = e.code ?? 404
                 res.end(e.message ?? "Internal server error")
             }
+        } else {
+            res.statusCode = 404
+            res.end("Endpoint: " + req.url + " are not supported")
         }
     }
 }
@@ -89,10 +93,10 @@ function executePut(
 
     const putTransform = new PutTransform(userId, res, connection)
     req.pipe(putTransform)
-}   
+}
 
 function executeDelete(
-    req: http.IncomingMessage, 
+    req: http.IncomingMessage,
     res: http.ServerResponse,
     connection: Connection
 ) {

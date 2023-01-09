@@ -2,6 +2,6 @@ export class UserNotExist extends Error {
     code = 404
     
     constructor(id: string) {
-        super('User with id: ' + id + 'is not exist')
+        super('user with id = ' + id + ' does not exist')
     }
 }

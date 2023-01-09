@@ -30,15 +30,19 @@ export class PostTransform extends Transform {
                     request.hobbies
                 )
 
-                this.res.statusCode = 200
+                this.res.statusCode = 201
                 this.res.end(JSON.stringify(user))
             } else {
                 this.res.statusCode = 400
-                this.res.end("Request does not contain required fields")
+                this.res.end("Request does not contain required fields. Or the fields are of the wrong type.")
             }
         } catch (error: any) {
-            this.res.statusCode = error.code ?? 404
-            this.res.end(error.message ?? "Internal serer error")
+            this.res.statusCode = error.code ?? 500
+            this.res.end(
+                error.code
+                    ? error.message
+                    : "Internal serer error.\n\treson: " + error.message
+            )
         }
         callback(null, chunk)
     }
