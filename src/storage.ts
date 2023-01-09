@@ -1,7 +1,7 @@
-import { User } from "./user";
-import { isUid } from "./uid/uid";
-import { UserNotExist } from "./error/UserNotExist";
-import { InvalidUUID } from "./error/InvalidUUID";
+import { User } from "./user"
+import { UserNotExist } from "./error/UserNotExist"
+import { InvalidUUID } from "./error/InvalidUUID"
+import { validate } from 'uuid'
 
 export class Storage {
     data: Map<String, User>
@@ -27,7 +27,7 @@ export class Connection {
     }
 
     getByUid(uid: string): User {
-        if (isUid(uid)) {
+        if (validate(uid)) {
             const user = this.storage.data.get(uid)
             if (user == undefined) {
                 throw new UserNotExist(uid)
@@ -63,7 +63,7 @@ export class Connection {
     }
 
     delete(uid: string) {
-        if (isUid(uid)) {
+        if (validate(uid)) {
             if (!this.storage.data.delete(uid)) {
                 throw new UserNotExist(uid)
             }

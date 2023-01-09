@@ -1,6 +1,8 @@
-import { Connection, Storage } from "./storage";
+import { Connection, Storage } from "./storage"
 import * as http from 'http'
-import { PostTransform } from "./transformers/post";
+import { PostTransform } from "./transformers/post"
+import { InvalidUUID } from "./error/InvalidUUID"
+import { UserNotExist } from "./error/UserNotExist"
 
 export class UserServer {
     connection: Connection
@@ -45,10 +47,30 @@ const executeGet = (
     res: http.ServerResponse,
     connection: Connection
 ) => {
-    const users = connection.getAll()
-    const answer = JSON.stringify(users)
-    res.statusCode = 200
-    res.end(answer)
+    const userByIdPatter = /^\/api\/users\/(\S*)/
+
+    const userId = userByIdPatter.exec(req.url ?? '')?.[1]
+
+    let code
+    let message
+
+    if (userId) {
+        try {
+            const user = connection.getByUid(userId)
+            message = JSON.stringify(user)
+            code = 200
+        } catch (e: any) {
+            message = e.message ?? "Internal server error"
+            code = e.code ?? 404
+        }
+    } else {
+        const users = connection.getAll()
+        message = JSON.stringify(users)
+        code = 200
+    }
+
+    res.statusCode = code
+    res.end(message)
 }
 
 function executePost(
