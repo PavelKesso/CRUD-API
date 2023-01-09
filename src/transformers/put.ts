@@ -1,15 +1,17 @@
 import { Transform, TransformCallback } from "stream";
 import * as http from 'http'
 import { Connection } from "../storage";
-import { validateUser } from "../validator/validator";
+import { validateUserPut } from "../validator/validator";
 
-export class PostTransform extends Transform {
+export class PutTransform extends Transform {
 
+    uid: string
     res: http.ServerResponse
     connection: Connection
 
-    constructor(res: http.ServerResponse, connection: Connection) {
+    constructor(uid: string, res: http.ServerResponse, connection: Connection) {
         super()
+        this.uid = uid
         this.res = res
         this.connection = connection
     }
@@ -21,10 +23,11 @@ export class PostTransform extends Transform {
     ): void {
         try {
             const request = JSON.parse(chunk)
-            const isValidated = validateUser(request)
+            const isValidated = validateUserPut(request)
 
             if (isValidated) {
-                const user = this.connection.add(
+                const user = this.connection.update(
+                    this.uid,
                     request.name,
                     request.age,
                     request.hobbies

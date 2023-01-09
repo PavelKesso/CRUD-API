@@ -46,7 +46,7 @@ export class Connection {
         return user
     }
 
-    update(uid: string, name?: string, age?: number, hobbies?: string[]) {
+    update(uid: string, name?: string, age?: number, hobbies?: string[]): User {
         const user = this.getByUid(uid)
 
         if (name != undefined) {
@@ -60,6 +60,7 @@ export class Connection {
         }
 
         this.storage.data.set(uid, user)
+        return user
     }
 
     delete(uid: string) {

@@ -3,6 +3,9 @@ import * as http from 'http'
 import { PostTransform } from "./transformers/post"
 import { InvalidUUID } from "./error/InvalidUUID"
 import { UserNotExist } from "./error/UserNotExist"
+import { PutTransform } from "./transformers/put"
+import { before } from "node:test"
+import { extractUid } from "./uid/extractoe"
 
 export class UserServer {
     connection: Connection
@@ -21,22 +24,31 @@ export class UserServer {
 
     userServer = (req: http.IncomingMessage, res: http.ServerResponse) => {
         if (req.url?.startsWith('/api/users')) {
-            switch (req.method) {
-                case 'GET': {
-                    executeGet(req, res, this.connection)
-                }
-                case 'POST': {
-                    executePost(req, res, this.connection)
-                }
-                case 'PUT': {
-                    executePut(req, res)
-                }
-                case 'DELETE': {
-                    executeDelete(req, res)
-                }
-                default: {
+            try {
+                switch (req.method) {
+                    case 'GET': {
+                        executeGet(req, res, this.connection)
+                        break
+                    }
+                    case 'POST': {
+                        executePost(req, res, this.connection)
+                        break
+                    }
+                    case 'PUT': {
+                        executePut(req, res, this.connection)
+                        break
+                    }
+                    case 'DELETE': {
+                        executeDelete(req, res, this.connection)
+                        break
+                    }
+                    default: {
 
+                    }
                 }
+            } catch (e: any) {
+                res.statusCode = e.code ?? 404
+                res.end(e.message ?? "Internal server error")
             }
         }
     }
@@ -47,29 +59,18 @@ const executeGet = (
     res: http.ServerResponse,
     connection: Connection
 ) => {
-    const userByIdPatter = /^\/api\/users\/(\S*)/
-
-    const userId = userByIdPatter.exec(req.url ?? '')?.[1]
-
-    let code
+    const userId = extractUid(req.url)
     let message
 
     if (userId) {
-        try {
-            const user = connection.getByUid(userId)
-            message = JSON.stringify(user)
-            code = 200
-        } catch (e: any) {
-            message = e.message ?? "Internal server error"
-            code = e.code ?? 404
-        }
+        const user = connection.getByUid(userId)
+        message = JSON.stringify(user)
     } else {
         const users = connection.getAll()
         message = JSON.stringify(users)
-        code = 200
     }
 
-    res.statusCode = code
+    res.statusCode = 200
     res.end(message)
 }
 
@@ -82,10 +83,25 @@ function executePost(
     req.pipe(postTransform)
 }
 
-function executePut(req: http.IncomingMessage, res: http.ServerResponse) {
+function executePut(
+    req: http.IncomingMessage,
+    res: http.ServerResponse,
+    connection: Connection
+) {
+    const userId = extractUid(req.url)
 
-}
+    const putTransform = new PutTransform(userId, res, connection)
+    req.pipe(putTransform)
+}   
 
-function executeDelete(req: http.IncomingMessage, res: http.ServerResponse) {
+function executeDelete(
+    req: http.IncomingMessage, 
+    res: http.ServerResponse,
+    connection: Connection
+) {
+    const userId = extractUid(req.url)
+    connection.delete(userId)
 
+    res.statusCode = 200
+    res.end()
 }
