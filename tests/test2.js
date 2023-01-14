@@ -2,39 +2,7 @@ const assert = require('assert');
 const request = require('supertest');
 const server = require('../build/server.js');
 const { User } = require('../build/user.js');
-
-
-const parseUserJSON = (text) => {
-    const json = JSON.parse(text)
-    const createdUser = new User(
-        json.name,
-        json.age,
-        json.hobbies
-    )
-    createdUser.id = json.id
-    return createdUser
-}
-
-const parseUser = (user) => {
-    const createdUser = new User(
-        user.name,
-        user.age,
-        user.hobbies
-    )
-    createdUser.id = user.id
-    return createdUser
-}
-
-const arraysEqual = (a, b) => {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length !== b.length) return false;
-
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
-  }
-  return true;
-}
+const { parseUser, parseUserJSON, arraysEqual } = require('./utils.js');
 
 describe('second case:', function () {
 
@@ -85,7 +53,6 @@ describe('second case:', function () {
                 done()
             })
     })
-
 
     it('POST new user: success', function (done) {
         request('http://localhost:5552')
