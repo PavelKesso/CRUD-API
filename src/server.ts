@@ -18,7 +18,9 @@ export class UserServer {
     }
 
     run() {
-        this.server.listen(this.port)
+        this.server.listen(this.port, () => {
+            console.log('server started on post: ' + this.port);
+        })
     }
 
     stop() {
