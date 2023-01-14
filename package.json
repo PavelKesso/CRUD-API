@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "npx nodemon",
     "start:prod": "tsc && nodemon ./dist/index.js",
-    "test": "mocha ./tests/*.js"
+    "test": "tsc && mocha ./tests/*.js"
   },
   "repository": {
     "type": "git",

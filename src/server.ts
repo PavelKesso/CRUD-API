@@ -3,20 +3,26 @@ import * as http from 'http'
 import { PostTransform } from "./transformers/post"
 import { PutTransform } from "./transformers/put"
 import { extractUid } from "./uid/extractoe"
+import { Http2Server } from "http2"
 
 export class UserServer {
     connection: Connection
     port: number
+    server: http.Server
 
     constructor(port: number) {
         const storage = new Storage()
         this.connection = storage.newConnection()
         this.port = port
+        this.server = http.createServer(this.userServer)
     }
 
     run() {
-        const server = http.createServer(this.userServer)
-        server.listen(this.port)
+        this.server.listen(this.port)
+    }
+
+    stop() {
+        this.server.close()
     }
 
     userServer = (req: http.IncomingMessage, res: http.ServerResponse) => {
