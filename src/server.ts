@@ -32,8 +32,6 @@ export class UserServer {
     }
 
     userServer = (req: http.IncomingMessage, res: http.ServerResponse) => {
-        console.log(`server on port: ${this.port} handled ${req.method} message`)
-
         if (req.url?.startsWith('/api/users')) {
             try {
                 switch (req.method) {
