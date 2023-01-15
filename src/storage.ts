@@ -2,6 +2,7 @@ import { User } from "./user"
 import { UserNotExist } from "./error/UserNotExist"
 import { InvalidUUID } from "./error/InvalidUUID"
 import { validate } from 'uuid'
+import cluster from "cluster"
 
 export class Storage {
     data: Map<String, User>
@@ -12,6 +13,18 @@ export class Storage {
 
     newConnection(): Connection {
         return new Connection(this)
+    }
+
+    nitifyDataChanges() {
+        cluster.worker?.send({ users: Object.fromEntries(this.data) } )
+    }
+
+    updateUsers(users: any) { 
+        this.data.clear()
+
+        Object.keys(users).forEach((key: any) => {
+            this.data.set(key, users[key]) 
+        })       
     }
 }
 
@@ -42,6 +55,7 @@ export class Connection {
     add(name: string, age: number, hobbies: string[]): User {
         const user = new User(name, age, hobbies)
         this.storage.data.set(user.id, user)
+        this.storage.nitifyDataChanges()
 
         return user
     }
@@ -60,6 +74,7 @@ export class Connection {
         }
 
         this.storage.data.set(uid, user)
+        this.storage.nitifyDataChanges()
         return user
     }
 
@@ -67,6 +82,8 @@ export class Connection {
         if (validate(uid)) {
             if (!this.storage.data.delete(uid)) {
                 throw new UserNotExist(uid)
+            } else {
+                this.storage.nitifyDataChanges()
             }
         } else {
             throw new InvalidUUID(uid)

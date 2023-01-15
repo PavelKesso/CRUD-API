@@ -10,9 +10,13 @@ export class UserServer {
     port: number
     server: http.Server
 
-    constructor(port: number) {
-        const storage = new Storage()
-        this.connection = storage.newConnection()
+    constructor(port: number, connection: Connection | undefined = undefined) {
+        if (connection) {
+            this.connection = connection
+        } else {
+            const storage = new Storage()
+            this.connection = storage.newConnection()
+        }
         this.port = port
         this.server = http.createServer(this.userServer)
     }
@@ -28,6 +32,8 @@ export class UserServer {
     }
 
     userServer = (req: http.IncomingMessage, res: http.ServerResponse) => {
+        console.log(`server on port: ${this.port} handled ${req.method} message`)
+
         if (req.url?.startsWith('/api/users')) {
             try {
                 switch (req.method) {
