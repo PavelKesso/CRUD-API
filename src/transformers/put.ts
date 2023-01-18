@@ -28,7 +28,7 @@ export class PutTransform extends Transform {
             if (isValidated) {
                 const user = this.connection.update(
                     this.uid,
-                    request.name,
+                    request.username,
                     request.age,
                     request.hobbies
                 )

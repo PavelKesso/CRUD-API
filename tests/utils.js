@@ -3,7 +3,7 @@ const { User } = require('../build/user.js');
 const parseUserJSON = (text) => {
     const json = JSON.parse(text)
     const createdUser = new User(
-        json.name,
+        json.username,
         json.age,
         json.hobbies
     )
@@ -13,7 +13,7 @@ const parseUserJSON = (text) => {
 
 const parseUser = (user) => {
     const createdUser = new User(
-        user.name,
+        user.username,
         user.age,
         user.hobbies
     )

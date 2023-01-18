@@ -46,7 +46,7 @@ describe('third case:', function () {
 
                 createdUser1 = parseUserJSON(res.text)
 
-                assert(createdUser1.name == testUser1.name)
+                assert(createdUser1.username == testUser1.username)
                 assert(createdUser1.age == testUser1.age)
                 assert(arraysEqual(createdUser1.hobbies, testUser1.hobbies))
                 assert(createdUser1.id)
@@ -65,7 +65,7 @@ describe('third case:', function () {
 
                 createdUser2 = parseUserJSON(res.text)
 
-                assert(createdUser2.name == testUser2.name)
+                assert(createdUser2.username == testUser2.username)
                 assert(createdUser2.age == testUser2.age)
                 assert(arraysEqual(createdUser2.hobbies, testUser2.hobbies))
                 assert(createdUser2.id)
@@ -84,7 +84,7 @@ describe('third case:', function () {
 
                 createdUser3 = parseUserJSON(res.text)
 
-                assert(createdUser3.name == testUser3.name)
+                assert(createdUser3.username == testUser3.username)
                 assert(createdUser3.age == testUser3.age)
                 assert(arraysEqual(createdUser3.hobbies, testUser3.hobbies))
                 assert(createdUser3.id)

@@ -6,6 +6,11 @@ import { parsePort } from "./env/parser"
 import * as http from 'http'
 import { Connection, Storage } from './storage'
 import { User } from './user'
+import { watch,  } from 'fs'
+import { Http2ServerResponse } from 'http2'
+import { stdout } from 'process'
+import { pipeline, Readable } from 'stream'
+import { ReadableStream } from 'stream/web'
 
 dotenv.config()
 
@@ -29,6 +34,14 @@ if (cluster.isPrimary) {
                     resp.pipe(res)
                 }
             )
+
+            res.setHeader
+            res.writeHead
+            res.write
+
+            pipeline()
+
+            new Readable.from()
 
             currentServer = (currentServer == (numCPUs - 1))
                 ? 1

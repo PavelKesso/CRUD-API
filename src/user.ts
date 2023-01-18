@@ -2,7 +2,7 @@ import { v4 as uid } from 'uuid'
 
 export class User {
     id: string
-    name: string
+    username: string
     age: number
     hobbies: string[]
 
@@ -12,7 +12,7 @@ export class User {
         hobbies: string[]
     ) {
         this.id = uid()
-        this.name = name
+        this.username = name
         this.age = age
         this.hobbies = hobbies
     }

@@ -46,7 +46,7 @@ describe('fiest case: error handling.', function () {
             })
     })
 
-    it('POST user without name: failed', function (done) {
+    it('POST user without username: failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
             .send('{"age": 22, "hobbies": [ "reading", "walking"]}')
@@ -60,7 +60,7 @@ describe('fiest case: error handling.', function () {
     it('POST user without age failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
-            .send('{"name": "Fernando", "hobbies": [ "reading", "walking"]}')
+            .send('{"username": "Fernando", "hobbies": [ "reading", "walking"]}')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -71,7 +71,7 @@ describe('fiest case: error handling.', function () {
     it('POST user without hobbies: failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
-            .send('{"name": "Fernando", "age": 22 }')
+            .send('{"username": "Fernando", "age": 22 }')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -82,7 +82,7 @@ describe('fiest case: error handling.', function () {
     it('POST user with wrong name type: failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
-            .send('{"name": {}, "age": 22, "hobbies": [ "reading", "walking"]}')
+            .send('{"username": {}, "age": 22, "hobbies": [ "reading", "walking"]}')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -93,7 +93,7 @@ describe('fiest case: error handling.', function () {
     it('POST user with wrong age type: failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
-            .send('{"name": "Fernando", "age": "22", "hobbies": [ "reading", "walking"]}')
+            .send('{"username": "Fernando", "age": "22", "hobbies": [ "reading", "walking"]}')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -104,7 +104,7 @@ describe('fiest case: error handling.', function () {
     it('POST user with wrong hobbies type: failed', function (done) {
         request('http://localhost:5551')
             .post('/api/users')
-            .send('{"name": "Fernando", "age": 22, "hobbies": [ 12, 22]}')
+            .send('{"username": "Fernando", "age": 22, "hobbies": [ 12, 22]}')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -115,7 +115,7 @@ describe('fiest case: error handling.', function () {
     it('PUT user with wrong uid: failed', function (done) {
         request('http://localhost:5551')
             .put('/api/users/wrong-uid')
-            .send('{"name": "Fernando", "age": 22, "hobbies": [ "reading", "walking"]}')
+            .send('{"username": "Fernando", "age": 22, "hobbies": [ "reading", "walking"]}')
             .expect(400)
             .end(function (err, res) {
                 if (err) throw err;
@@ -126,7 +126,7 @@ describe('fiest case: error handling.', function () {
     it('PUT user with unexisting uid: failed', function (done) {
         request('http://localhost:5551')
             .put('/api/users/d9428888-122b-11e1-b85c-61cd3cbb3210')
-            .send('{"name": "Fernando", "age": 22, "hobbies": [ "reading", "walking"]}')
+            .send('{"username": "Fernando", "age": 22, "hobbies": [ "reading", "walking"]}')
             .expect(404)
             .end(function (err, res) {
                 if (err) throw err;

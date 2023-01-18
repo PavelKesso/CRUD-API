@@ -45,7 +45,7 @@ describe('second case:', function () {
 
                 createdUser1 = parseUserJSON(res.text)
 
-                assert(createdUser1.name == testUser1.name)
+                assert(createdUser1.username == testUser1.username)
                 assert(createdUser1.age == testUser1.age)
                 assert(arraysEqual(createdUser1.hobbies, testUser1.hobbies))
                 assert(createdUser1.id)
@@ -64,7 +64,7 @@ describe('second case:', function () {
 
                 createdUser2 = parseUserJSON(res.text)
 
-                assert(createdUser2.name == testUser2.name)
+                assert(createdUser2.username == testUser2.username)
                 assert(createdUser2.age == testUser2.age)
                 assert(arraysEqual(createdUser2.hobbies, testUser2.hobbies))
                 assert(createdUser2.id)
@@ -94,14 +94,14 @@ describe('second case:', function () {
     it('PUT update existing users', function (done) {
         request('http://localhost:5552')
             .put('/api/users/' + createdUser1.id)
-            .send('{"name": "' + newName1 + '"}')
+            .send('{"username": "' + newName1 + '"}')
             .expect(200)
             .end(function (err, res) {
                 if (err) throw err;
                 const changedUser1 = parseUserJSON(res.text)
 
-                assert(changedUser1.name == newName1)
-                createdUser1.name = newName1
+                assert(changedUser1.username == newName1)
+                createdUser1.username = newName1
 
                 done()
             })
@@ -110,14 +110,14 @@ describe('second case:', function () {
     it('PUT update existing users', function (done) {
         request('http://localhost:5552')
             .put('/api/users/' + createdUser2.id)
-            .send('{"name": "' + newName2 + '"}')
+            .send('{"username": "' + newName2 + '"}')
             .expect(200)
             .end(function (err, res) {
                 if (err) throw err;
                 const changedUser2 = parseUserJSON(res.text)
 
-                assert(changedUser2.name == newName2)
-                createdUser2.name = newName2
+                assert(changedUser2.username == newName2)
+                createdUser2.username = newName2
 
                 done()
             })

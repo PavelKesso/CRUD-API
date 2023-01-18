@@ -25,7 +25,7 @@ export class PostTransform extends Transform {
 
             if (isValidated) {
                 const user = this.connection.add(
-                    request.name,
+                    request.username,
                     request.age,
                     request.hobbies
                 )

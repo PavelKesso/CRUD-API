@@ -3,7 +3,6 @@ import * as http from 'http'
 import { PostTransform } from "./transformers/post"
 import { PutTransform } from "./transformers/put"
 import { extractUid } from "./uid/extractoe"
-import { Http2Server } from "http2"
 
 export class UserServer {
     connection: Connection

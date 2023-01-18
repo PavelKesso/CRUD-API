@@ -64,7 +64,7 @@ export class Connection {
         const user = this.getByUid(uid)
 
         if (name != undefined) {
-            user.name = name
+            user.username = name
         }
         if (age != undefined) {
             user.age = age
